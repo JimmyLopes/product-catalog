@@ -1,13 +1,15 @@
 package br.com.product.catalog.services;
 
 import br.com.product.catalog.dto.request.ProductRequest;
-import br.com.product.catalog.dto.response.ProductResponse;
 import br.com.product.catalog.helper.ProductHelper;
+import br.com.product.catalog.model.Product;
 import br.com.product.catalog.repository.ProductRepository;
+import br.com.shopping.cart.commons.shopping.cart.commons.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static br.com.product.catalog.exception.ApplicationError.PCA_PRODUCT_NOT_FOUND;
 
 @Service
 public class ProductService {
@@ -21,16 +23,20 @@ public class ProductService {
         this.helper = helper;
     }
 
-    public ProductResponse getProduct(Long productId) {
-        return helper.toResponse(productRepository.findById(productId).get());
+    public Product getProduct(Long productId) {
+        return findProduct(productId);
     }
 
-    public List<ProductResponse> getAllProducts() {
-        return productRepository.findAll().stream().map(helper::toResponse).collect(Collectors.toList());
+    private Product findProduct(Long productId) {
+        return productRepository.findById(productId).orElseThrow(() -> new ServiceException(PCA_PRODUCT_NOT_FOUND, productId));
     }
 
-    public ProductResponse saveNew(ProductRequest request) {
-        return helper.toResponse(productRepository.save(helper.toDomain(request)));
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public Product saveNew(ProductRequest request) {
+        return productRepository.save(helper.toDomain(request));
     }
 
     public void deleteProduct(Long productId) {

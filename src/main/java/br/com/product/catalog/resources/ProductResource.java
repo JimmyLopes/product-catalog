@@ -1,7 +1,7 @@
 package br.com.product.catalog.resources;
 
 import br.com.product.catalog.dto.request.ProductRequest;
-import br.com.product.catalog.dto.response.ProductResponse;
+import br.com.product.catalog.model.Product;
 import br.com.product.catalog.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,17 +18,17 @@ public class ProductResource {
     }
 
     @GetMapping("/{productId}")
-    public ProductResponse getProduct(@PathVariable Long productId) {
+    public Product getProduct(@PathVariable Long productId) {
         return productService.getProduct(productId);
     }
 
     @GetMapping
-    public List<ProductResponse> getall() {
+    public List<Product> getall() {
         return productService.getAllProducts();
     }
 
     @PostMapping
-    public ProductResponse saveNew(@RequestBody ProductRequest request) {
+    public Product saveNew(@RequestBody ProductRequest request) {
         return productService.saveNew(request);
     }
 

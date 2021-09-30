@@ -50,6 +50,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>br.com.shopping.cart.commons</groupId>
+			<artifactId>shopping-cart-commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
